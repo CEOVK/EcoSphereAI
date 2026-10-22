@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSphere AI | Dashboard</title>
+    <style>
+        :root {
+            --bg: #06131d;
+            --bg-2: #0a1d2a;
+            --panel: rgba(16, 34, 45, 0.95);
+            --panel-2: rgba(13, 27, 37, 0.96);
+            --card: rgba(18, 41, 52, 0.96);
+            --primary: #45d39a;
+            --primary-2: #6bf0c3;
+            --secondary: #7ab8ff;
+            --warning: #f9c74f;
+            --danger: #ff7b72;
+            --text: #ebf7f1;
+            --muted: #a8bcc8;
+            --line: rgba(255,255,255,0.08);
+            --shadow: rgba(0,0,0,0.28);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #0c1d29 38%, #0d2431 100%);
+            color: var(--text);
+        }
+        a { color: inherit; text-decoration: none; }
+        .page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-radius: 18px;
+            background: rgba(11, 26, 35, 0.95);
+            border: 1px solid var(--line);
+            box-shadow: 0 14px 30px var(--shadow);
+        }
+        .brand {
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--primary-2);
+            font-size: 1.35rem;
+        }
+        .nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+        .nav a:hover { color: var(--text); }
+        .hero {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 18px;
+        }
+        .card {
+            background: rgba(15, 31, 40, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 22px 45px rgba(0,0,0,0.25);
+            padding: 22px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 7px 12px;
+            font-size: 0.74rem;
+            border-radius: 999px;
+            font-weight: 700;
+            background: rgba(69, 211, 154, 0.12);
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+        h1 {
+            margin: 0 0 14px;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1.15;
+        }
+        .muted { color: var(--muted); }
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(150px, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+        .metric {
+            padding: 18px 16px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(22,48,60,0.9), rgba(10,20,28,0.9));
+            border: 1px solid var(--line);
+        }
+        .metric-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
+        .metric-value { font-size: 2rem; font-weight: 800; }
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 0.6fr;
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .section-title {
+            margin: 0 0 12px;
+            font-size: 1.2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th, td {
+            text-align: left;
+            border-bottom: 1px solid var(--line);
+            padding: 12px 8px;
+            vertical-align: middle;
+        }
+        th { color: var(--muted); font-weight: 600; }
+        .status-pill {
+            display: inline-block;
+            background: rgba(69, 211, 154, 0.12);
+            color: var(--primary);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            color: #072410;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-top: 18px;
+            cursor: pointer;
+        }
+        .stack {
+            display: grid;
+            gap: 12px;
+        }
+        .small-card {
+            padding: 15px 16px;
+            border-radius: 14px;
+            background: rgba(12, 25, 33, 0.9);
+            border: 1px solid var(--line);
+        }
+        .small-card strong { display: block; margin-bottom: 6px; }
+        .role-menu {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .role-pill {
+            border: 1px solid var(--line);
+            padding: 8px 10px;
+            border-radius: 999px;
+            color: var(--muted);
+            background: rgba(255,255,255,0.02);
+            font-size: 0.8rem;
+        }
+        @media (max-width: 920px) {
+            .hero, .section-grid, .mini-grid { grid-template-columns: 1fr; }
+            .topbar { flex-direction: column; gap: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="topbar">
+            <div class="brand">ECOSPHERE AI</div>
+            <div class="nav">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/waste">Waste</a>
+                <a href="/projects">Projects</a>
+                <a href="/leaders">Leaderboard</a>
+                <a href="/esg">ESG</a>
+                <a href="/login">Login</a>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="card">
+                <div class="badge">SDG 4 • 9 • 12 • 13</div>
+                <h1>EcoSphere AI: Circular Technology Intelligence for Schools & CSR</h1>
+                <div class="muted">Waste recovery, student innovation, sustainability analytics, and ESG reporting in one startup-grade platform.</div>
+                <div class="role-menu">
+                    <span class="role-pill">Student</span>
+                    <span class="role-pill">Teacher</span>
+                    <span class="role-pill">Coordinator</span>
+                    <span class="role-pill">Principal</span>
+                    <span class="role-pill">Corporate Partner</span>
+                </div>
+                <a class="cta" href="/waste">View waste registry</a>
+            </div>
+            <div class="card">
+                <div class="section-title">Impact Snapshot</div>
+                <div class="stack">
+                    <div class="small-card">
+                        <strong>Students Reached</strong>
+                        <div id="studentsReached">0</div>
+                    </div>
+                    <div class="small-card">
+                        <strong>Kg Recovered</strong>
+                        <div id="kgRecovered">0 kg</div>
+                    </div>
+                    <div class="small-card">
+                        <strong>Innovation Score</strong>
+                        <div id="innovationScore">0 / 100</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mini-grid" id="metricTiles"></div>
+
+        <div class="section-grid">
+            <div class="card">
+                <h3 class="section-title">Recent Waste Entries</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Weight</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wasteTableBody"></tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3 class="section-title">Program Highlights</h3>
+                <div class="stack">
+                    <div class="small-card"><strong>Collection Drives</strong> 12 active initiatives</div>
+                    <div class="small-card"><strong>Innovation Pipeline</strong> 44 project ideas in review</div>
+                    <div class="small-card"><strong>Repair Lab</strong> 13 restoration events</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadOverview() {
+            const data = await fetch('/api/dashboard/overview').then(r => r.json());
+            const metricTiles = [
+                { label: 'Total E-Waste', value: `${data.totalWasteCollected ?? 0} kg` },
+                { label: 'Monthly', value: `${data.monthlyCollection ?? 0} kg` },
+                { label: 'Projects', value: `${data.projectsBuilt ?? 0}` },
+                { label: 'Sustainability', value: `${data.sustainabilityIndex ?? 0}%` }
+            ];
+            document.getElementById('metricTiles').innerHTML = metricTiles.map(tile => `
+                <div class="metric">
+                    <div class="metric-label">${tile.label}</div>
+                    <div class="metric-value">${tile.value}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('studentsReached').textContent = data.activeStudents ?? 0;
+            document.getElementById('kgRecovered').textContent = `${data.totalWasteCollected ?? 0} kg`;
+            document.getElementById('innovationScore').textContent = `${data.environmentalImpactScore ?? 0} / 100`;
+
+            const rows = (data.wasteEntries || []).slice(0, 5).map(item => `
+                <tr>
+                    <td>${item.itemType || 'Unknown'}</td>
+                    <td>${item.weight || 0} kg</td>
+                    <td>${item.studentName || '-'}</td>
+                    <td><span class="status-pill">${item.status || 'Received'}</span></td>
+                </tr>
+            `).join('');
+            document.getElementById('wasteTableBody').innerHTML = rows || '<tr><td colspan="4">No entries yet.</td></tr>';
+        }
+        loadOverview();
+    </script>
+</body>
+</html>

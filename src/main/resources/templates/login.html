@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSphere AI | Login</title>
+    <style>
+        :root { --bg:#06131d; --panel:rgba(15,31,40,.96); --text:#ebf7f1; --muted:#a8bcc8; --primary:#45d39a; --line:rgba(255,255,255,.08);} *{box-sizing:border-box;} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#06131d,#0b1d29);color:var(--text);display:flex;justify-content:center;align-items:center;min-height:100vh;} .shell{width:min(520px,90vw);background:rgba(15,31,40,.96);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 20px 30px rgba(0,0,0,.18);} input,button{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--text);margin-top:10px;} button{background:linear-gradient(135deg,var(--primary),#7ce6c3);color:#072410;font-weight:800;border:none;cursor:pointer;} .brand{font-weight:800;letter-spacing:.08em;color:#7ce6c3;text-align:center;margin-bottom:18px;} .small{color:var(--muted);text-align:center;margin-top:18px;} </style>
+</head>
+<body>
+<div class="shell">
+    <div class="brand">ECOSPHERE AI</div>
+    <h2 style="text-align:center; margin-top:0;">Secure Access</h2>
+    <form id="loginForm">
+        <input type="email" id="email" value="admin@ecosphere.ai" placeholder="Email" />
+        <input type="password" id="password" value="password123" placeholder="Password" />
+        <button type="submit">Login</button>
+    </form>
+    <div class="small">Demo credentials: admin@ecosphere.ai / password123</div>
+</div>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.token) {
+            localStorage.setItem('ecosphereToken', data.token);
+            window.location.href = '/dashboard';
+        } else {
+            alert('Invalid credentials');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSphere AI | Leaderboard</title>
+    <style>
+        :root { --bg:#06131d; --panel:rgba(15,31,40,.96); --text:#ebf7f1; --muted:#a8bcc8; --primary:#45d39a; --line:rgba(255,255,255,.08);} *{box-sizing:border-box;} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#06131d,#0b1d29);color:var(--text);} .page{max-width:1280px;margin:0 auto;padding:28px;} .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:rgba(13,27,37,.95);} .brand{font-weight:800;letter-spacing:.08em;color:#7ce6c3;} .nav{display:flex;flex-wrap:wrap;gap:14px;color:var(--muted);} .card{background:rgba(15,31,40,.96); border:1px solid var(--line); border-radius:20px; padding:20px; box-shadow:0 20px 30px rgba(0,0,0,.18); margin-top:24px;} table{width:100%;border-collapse:collapse;} th,td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:left;} th{color:var(--muted);} .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(69,211,154,.12);color:var(--primary);font-size:.72rem;font-weight:700;} </style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div class="brand">ECOSPHERE AI</div>
+        <div class="nav">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/waste">Waste</a>
+            <a href="/projects">Projects</a>
+            <a href="/leaders">Leaderboard</a>
+            <a href="/esg">ESG</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Student Leadership Dashboard</h2>
+        <table>
+            <thead>
+                <tr><th>Rank</th><th>Student</th><th>Class</th><th>Points</th><th>Badge</th></tr>
+            </thead>
+            <tbody id="leaderRows"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    fetch('/api/leaderboard').then(r => r.json()).then(data => {
+        document.getElementById('leaderRows').innerHTML = (data || []).map((item, index) => `
+            <tr>
+                <td>#${index + 1}</td>
+                <td>${item.studentName || 'Student'}</td>
+                <td>${item.className || '-'}</td>
+                <td>${item.points || 0}</td>
+                <td><span class="badge">${item.badge || 'Eco Warrior'}</span></td>
+            </tr>
+        `).join('');
+    });
+</script>
+</body>
+</html>

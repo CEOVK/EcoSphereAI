@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSphere AI | ESG Dashboard</title>
+    <style>
+        :root { --bg:#06131d; --panel:rgba(15,31,40,.96); --text:#ebf7f1; --muted:#a8bcc8; --primary:#45d39a; --line:rgba(255,255,255,.08);} *{box-sizing:border-box;} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#06131d,#0b1d29);color:var(--text);} .page{max-width:1280px;margin:0 auto;padding:28px;} .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:rgba(13,27,37,.95);} .brand{font-weight:800;letter-spacing:.08em;color:#7ce6c3;} .nav{display:flex;flex-wrap:wrap;gap:14px;color:var(--muted);} .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px;} .card{background:rgba(15,31,40,.96);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 20px 30px rgba(0,0,0,.18);} .label{color:var(--muted);font-size:.76rem;margin-bottom:10px;} .value{font-size:2rem;font-weight:800;} @media(max-width:900px){.grid{grid-template-columns:1fr 1fr;}.topbar{flex-direction:column;gap:12px;}} @media(max-width:600px){.grid{grid-template-columns:1fr;}} </style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div class="brand">ECOSPHERE AI</div>
+        <div class="nav">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/waste">Waste</a>
+            <a href="/projects">Projects</a>
+            <a href="/leaders">Leaderboard</a>
+            <a href="/esg">ESG</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card"><div class="label">Students Reached</div><div class="value" id="students">0</div></div>
+        <div class="card"><div class="label">Schools Reached</div><div class="value" id="schools">0</div></div>
+        <div class="card"><div class="label">Kg Recovered</div><div class="value" id="kg">0</div></div>
+        <div class="card"><div class="label">Carbon Reduction</div><div class="value" id="carbon">0%</div></div>
+    </div>
+</div>
+
+<script>
+    fetch('/api/dashboard/overview').then(r => r.json()).then(data => {
+        document.getElementById('students').textContent = data.activeStudents || 0;
+        document.getElementById('schools').textContent = 8;
+        document.getElementById('kg').textContent = data.totalWasteCollected || 0;
+        document.getElementById('carbon').textContent = `${Math.min(90, data.environmentalImpactScore || 0)}%`;
+    });
+</script>
+</body>
+</html>
