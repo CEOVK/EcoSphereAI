@@ -22,7 +22,6 @@ public class JwtService {
     public String generateToken(String email, String role) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationMs);
-
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         return Jwts.builder()
@@ -35,13 +34,11 @@ public class JwtService {
     }
 
     public String extractEmail(String token) {
-        Claims claims = parseClaims(token);
-        return claims.getSubject();
+        return parseClaims(token).getSubject();
     }
 
     public String extractRole(String token) {
-        Claims claims = parseClaims(token);
-        return claims.get("role", String.class);
+        return parseClaims(token).get("role", String.class);
     }
 
     public boolean isValid(String token) {

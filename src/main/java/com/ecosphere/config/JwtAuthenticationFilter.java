@@ -1,5 +1,6 @@
 package com.ecosphere.config;
 
+import com.ecosphere.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,9 +14,9 @@ import java.util.Collections;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final com.ecosphere.service.JwtService jwtService;
+    private final JwtService jwtService;
 
-    public JwtAuthenticationFilter(com.ecosphere.service.JwtService jwtService) {
+    public JwtAuthenticationFilter(JwtService jwtService) {
         this.jwtService = jwtService;
     }
 

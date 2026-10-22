@@ -26,10 +26,11 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/index", "/dashboard", "/api/auth/**", "/api/dashboard/**", "/api/waste/**", "/api/projects/**", "/api/partners/**", "/api/ai/**", "/css/**", "/js/**", "/images/**")
+                .requestMatchers("/", "/index.html", "/api/auth/**", "/api/dashboard/**", "/api/waste/**", "/api/projects/**", "/api/partners/**", "/api/ai/**", "/h2-console/**", "/css/**", "/js/**", "/assets/**")
                 .permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
+            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
